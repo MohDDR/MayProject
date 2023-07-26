@@ -270,9 +270,9 @@ public class ActionController {
     		
     		Dictionary<String, Double> result = actServ.previewStatChanges(userServ.findUser(id));
     		
-    		userServ.updateStats(result);
+    		userServ.updateStats(result, id);
     		
-    		return "confirmActions.jsp";
+    		return "redirect:/view/account";
     		
     	}
 		

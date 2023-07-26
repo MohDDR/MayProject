@@ -15,6 +15,9 @@ import org.springframework.validation.BindingResult;
 import com.moh.code.models.Action;
 import com.moh.code.models.LoginUser;
 import com.moh.code.models.User;
+import com.moh.code.models.Willpower;
+import com.moh.code.models.Charisma;
+import com.moh.code.models.Constitution;
 import com.moh.code.repositories.UserRepository;
 
 @Service
@@ -226,20 +229,159 @@ public class UserService {
 		return result;
 	}
 	
-	public void updateStats(Dictionary<String, Double> result) {
+	public void updateStats(Dictionary<String, Double> result, Long id) {
 		
+		/* main category title needed for stat incs 
+		 * adding main category would require major changes to the entire app 
+		 * check for main category and iterate through its subcategories for matching stat name 
+		 * add the result value and the current value in the stat together */
+		
+		Charisma charisma = chaServ.findCha(id);
+		
+		Constitution constitution = (conServ.findCon(id));
+    	
+    	Willpower willpower = (willServ.findWill(id));
+    	
 		for (Enumeration key = result.elements(); key.hasMoreElements();){
 			
-			if (key.nextElement() == key.nextElement()) {
-				//main category title needed for stat incs
-				//adding main category would require major changes to the entire app
-				//check for main category and iterate through the its subcategories for matching stat name
-				//add the result value and the current value in the stat together
-				
-				
+			String statName = (String) key.nextElement();
+			
+			//charisma checks
+			switch(statName) {
+			
+			  case "speech":
+				  
+				  charisma.setSpeech((int) (charisma.getSpeech()+result.get(key)));
+				  
+			    break;
+			    
+			  case "conduct":
+				  
+				  charisma.setConduct((int) (charisma.getConduct()+result.get(key)));
+				  
+			    break;
+			    
+			  case "reputation":
+				  
+				  charisma.setReputation((int) (charisma.getReputation()+result.get(key)));
+				  
+			    break;
+			    
+			  case "average_cha":
+				  
+				  charisma.setAverage_cha((int) (charisma.getAverage_cha()+result.get(key)));
+				  
+			    break;
+			    
+			  case "ability":
+				  
+				  charisma.setAbility((int) (charisma.getAbility()+result.get(key)));
+				  
+			    break;
+			    
+			  case "network":
+				  
+				  charisma.setNetwork((int) (charisma.getNetwork()+result.get(key)));
+				  
+			    break;
+			    
+			  //constitution checks
+			    
+			  case "health":
+				  
+				  constitution.setHealth((int) (constitution.getHealth()+result.get(key)));
+				  
+			    break;
+			    
+			  case "training":
+				  
+				  constitution.setTraining((int) (constitution.getTraining()+result.get(key)));
+				  
+			    break;
+			    
+			  case "diet":
+				  
+				  constitution.setDiet((int) (constitution.getDiet()+result.get(key)));
+				  
+			    break;
+			    
+			  case "average_con":
+				  
+				  constitution.setAverage_con((int) (constitution.getAverage_con()+result.get(key)));
+				  
+			    break;
+			    
+			  case "length":
+				  
+				  constitution.setLength((int) (constitution.getLength()+result.get(key)));
+				  
+			    break;
+			    
+			  case "consistency":
+				  
+				  constitution.setConsistency((int) (constitution.getConsistency()+result.get(key)));
+				  
+			    break;
+			    
+			  case "intensity":
+				  
+				  constitution.setIntensity((int) (constitution.getIntensity()+result.get(key)));
+				  
+			    break;
+			    
+			  //willpower checks
+			    
+			  case "mood":
+				  
+				  willpower.setMood((int) (willpower.getMood()+result.get(key)));
+				  
+			    break;
+			    
+			  case "mentality":
+				  
+				  willpower.setMentality((int) (willpower.getMentality()+result.get(key)));
+				  
+			    break;
+			    
+			  case "faith":
+				  
+				  willpower.setFaith((int) (willpower.getFaith()+result.get(key)));
+				  
+			    break;
+			    
+			  case "discipline":
+				  
+				  willpower.setDiscipline((int) (willpower.getDiscipline()+result.get(key)));
+				  
+			    break;
+			  
+			  case "average_will":
+				  
+				  willpower.setAverage_will((int) (willpower.getAverage_will()+result.get(key)));
+				  
+			    break;
+			    
+			  case "focus":
+				  
+				  willpower.setFocus((int) (willpower.getFocus()+result.get(key)));
+				  
+			    break;
+			    
+			  case "drive":
+				  
+				  willpower.setDrive((int) (willpower.getDrive()+result.get(key)));
+				  
+			    break;
+			  
 			}
 			
 		}
+		
+		willServ.updateWill(willpower);
+		
+		chaServ.updateCha(charisma);
+		
+		conServ.updateCon(constitution);
 		
 	}
 	
