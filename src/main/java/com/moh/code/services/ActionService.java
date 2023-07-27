@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.moh.code.models.Action;
 import com.moh.code.models.Skill;
+import com.moh.code.models.StatIncrement;
 import com.moh.code.models.User;
 import com.moh.code.repositories.ActionRepository;
 
@@ -74,32 +75,92 @@ public class ActionService {
 		
 		Dictionary<String, Double> result= new Hashtable<>();
 		
+		System.out.println("preview stats model begin");
+		
 		for (Action compAct: findCompletedActions(user)) {
+			
+			System.out.println("looking for skills associated with " + compAct.getName() + " .....!");
 			
 			List<Skill> skillsWithAct = statIncServ.findUserSkillsWithAct(compAct, user);
 			
-			if (skillsWithAct != null) {
+			if (skillsWithAct == null || skillsWithAct.isEmpty()) {
 				
-				Dictionary<String, Double> oneResult = statIncServ.StatChanges(compAct, skillsWithAct);
-
-				for (Enumeration oneResultKey = oneResult.elements(); oneResultKey.hasMoreElements();){
+				System.out.println(" none found !!!");
+				
+				List<StatIncrement> actStatIncs = statIncServ.findStatIncsForAction(compAct);
+				
+				for (StatIncrement actStatInc: actStatIncs) {
 					
-					for (Enumeration resultKey = result.elements(); resultKey.hasMoreElements();){
+					System.out.println(" result value !!!" + result);
+					
+					if (result == null || result.isEmpty()) {
+					
+						System.out.println(" put this in result !!!");
 						
-						if (resultKey.nextElement() == oneResultKey.nextElement()) {
+						result.put((String) actStatInc.getName() , actStatInc.getIncAmt());
+						
+					} else {
+						
+						for (Enumeration<String> resultKeys = result.keys(); resultKeys.hasMoreElements();){
 							
-							result.put((String) resultKey.nextElement(),(result.get(resultKey)+oneResult.get(oneResultKey)));
+							String resultKey = resultKeys.nextElement();
 							
-						} else {
-							
-							result.put((String) oneResultKey.nextElement() , oneResult.get(oneResultKey));
-							
-						}
-							
-			        }
+							if (resultKey == actStatInc.getName()) {
+								
+								System.out.println(" match found !!!");
+								
+								result.put( resultKey ,(result.get(resultKey) + actStatInc.getIncAmt()));
+								
+							} else {
+								
+								System.out.println(" result value part 2 !!!" + result);
+								
+								result.put( actStatInc.getName() , actStatInc.getIncAmt());
+								
+							}
+								
+				        }
+						
+					}
 					
 				}
 				
+			} else {
+				
+				System.out.println("found some! ");
+				
+				Dictionary<String, Double> oneResult = statIncServ.StatChanges(compAct, skillsWithAct);
+
+				for (Enumeration<String> oneResultKeys = oneResult.keys(); oneResultKeys.hasMoreElements();){
+					
+					String oneResultKey = oneResultKeys.nextElement();
+
+					if (result == null || result.isEmpty()) {		
+							
+						result.put((String) oneResultKey , oneResult.get(oneResultKey));
+													
+					} else {
+						
+						for (Enumeration<String> resultKeys = result.keys(); resultKeys.hasMoreElements();){
+							
+							String resultKey = resultKeys.nextElement();
+						
+							if (resultKey == oneResultKey) {
+								
+								result.put((String) resultKey,(result.get(resultKey)+oneResult.get(oneResultKey)));
+								
+							} else {
+								
+								result.put((String) oneResultKey , oneResult.get(oneResultKey));
+								
+							}
+							
+						}
+						
+					}
+						
+				}
+						
 			}
 				
 		}

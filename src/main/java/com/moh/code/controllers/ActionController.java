@@ -1,6 +1,7 @@
 package com.moh.code.controllers;
 
 import java.util.Dictionary;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.moh.code.models.Action;
 import com.moh.code.models.StatIncrement;
+import com.moh.code.models.User;
 import com.moh.code.services.ActionService;
 import com.moh.code.services.StatIncrementService;
 import com.moh.code.services.UserService;
@@ -242,9 +244,21 @@ public class ActionController {
     		
     		Long id = (Long) session.getAttribute("user_id");
     		
-    		Dictionary<String, Double> result = actServ.previewStatChanges(userServ.findUser(id));
+    		User user = userServ.collectUserStats(id);
     		
-    		model.addAttribute("result", result);
+    		user.setCompletedActs(actServ.findCompletedActions(user));
+    		
+    		model.addAttribute("user", user);
+    		
+    		Dictionary<String, Double> preview = actServ.previewStatChanges(userServ.findUser(id));
+    		
+    		model.addAttribute("previewStats", preview);
+    		
+    		System.out.println("logged in... heres preview info " + preview.get(1));
+    		
+    		Dictionary<Action, Long> compActs = userServ.findCompletedActionsCount(user);
+    		
+    		model.addAttribute("compActs", compActs);
     		
     		return "previewActions.jsp";
     		
@@ -255,7 +269,7 @@ public class ActionController {
 	// Preview and Confirm selected actions page
 	@RequestMapping("/confirm-actions")
 	
-	public String confirmActions (HttpSession session, Action action, Model model) {
+	public String confirmActions (HttpSession session, Model model) {
 		
 		if (session.getAttribute("user_id")==null) {
 			

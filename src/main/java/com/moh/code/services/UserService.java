@@ -242,12 +242,14 @@ public class UserService {
     	
     	Willpower willpower = (willServ.findWill(id));
     	
-		for (Enumeration key = result.elements(); key.hasMoreElements();){
+		for (Enumeration<String> keys2 = result.keys(); keys2.hasMoreElements();){
+
+			String key = keys2.nextElement();
 			
-			String statName = (String) key.nextElement();
+			System.out.println( result + "... heres the key element ... " + key + " and " + result.get(key));
 			
 			//charisma checks
-			switch(statName) {
+			switch(key) {
 			
 			  case "speech":
 				  

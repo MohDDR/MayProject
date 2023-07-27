@@ -27,6 +27,7 @@
 		<div class=" row border border-primary ">
 			<div class=" col-sm-2 border border-primary ">
 				<div class="">
+					<h4>Current Stats</h4>
 					<h5>Charisma: <c:out value="${ user.charisma.average_cha }"/></h5>
 					<h6>Speech: <c:out value="${ user.charisma.speech }"/></h6>
 					<h6>Conduct: <c:out value="${ user.charisma.conduct }"/></h6>
@@ -54,14 +55,14 @@
 				</div>
 			</div>
 			<div class=" col-sm-8 border border-primary ">
-				<h6>Actions</h6>
-				<a href="/new-action"><button>Create action</button></a>
-				<c:forEach var="action" items="${ actions }">
+				<h6>Stats Changes</h6>
+				<a href="/confirm-actions"><button>Confirm</button></a>
+				<c:forEach var="previewStat" items="${ previewStats }">
 					<div>
-						<p><c:out value="${ action.name }"/></p>
-						<p><c:out value="${ action.maxLimit }"/></p>
-						<a href="/view-action/${ action.id }">View Action</a>
-						<a href="/dashboard/${ action.id }">Select Action</a>
+					
+						<p><c:out value="${ previewStat.key }"/></p>
+						<p><c:out value="${ previewStat.value }"/></p>
+					
 					</div>	
 				</c:forEach>
 			</div>
@@ -71,9 +72,8 @@
 				
 					<p> <c:out value="${ compAct.key.name }"/> </p>
 					<p> <c:out value="${ compAct.value }"/> </p>
-					
+				
 				</c:forEach>
-				<a href="/actions-preview">preview Action results</a>
 			</div>
 		</div>
 	</div>
