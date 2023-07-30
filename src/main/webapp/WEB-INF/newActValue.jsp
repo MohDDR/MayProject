@@ -33,7 +33,7 @@
 				<p>(owned skills/similar skills(*through main stats and actions))</p>
 			</div>
 			<div class=" col-sm-8 border border-primary ">
-				<form:form action="/action/${actId}/create-statInc" method="post" modelAttribute="statInc">
+				<form:form action="/action/create-statInc" method="post" modelAttribute="statInc">
 				    <div class="">
 				        <form:label path="name">Value Name: </form:label>
 				        <form:input path="name"/>

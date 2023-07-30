@@ -1,8 +1,6 @@
 package com.moh.code.controllers;
 
 import java.util.Dictionary;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.moh.code.models.Action;
 import com.moh.code.models.StatIncrement;
@@ -173,9 +172,9 @@ public class ActionController {
     // New Action statInc: create new statInc for action page
     @GetMapping("/action/{id}/create-statInc")
     
-	public String newActionStatInc(@PathVariable("id") Long actId, 
+	public String newActionStatInc(Model model, @PathVariable("id") Long actId,
 			
-			Model model, @ModelAttribute("statInc") StatIncrement statInc, 
+			@ModelAttribute("statInc") StatIncrement statInc, 
 			
 			HttpSession session) {
     	
@@ -187,40 +186,48 @@ public class ActionController {
     		
     	} else {
     		
-    		model.addAttribute("actId", actId);
+    		System.out.println("statInc id is " + statInc.getId());
+    		
+    		session.setAttribute("actId", actId);
 
 			return "newActValue.jsp";
     	}
 	}
     
     // Action Create statInc: create new statInc for action procedure
-    @PostMapping("/action/{id}/create-statInc")
+    @RequestMapping(value = "/action/create-statInc", method=RequestMethod.POST)
     
-    public String createActionStatInc(@PathVariable("id") Long actId, 
-    		
-    		@Valid @ModelAttribute("statInc") StatIncrement statInc,
+    public String createActionStatInc(@Valid @ModelAttribute("statInc") StatIncrement statInc,
     		
     		BindingResult result, HttpSession session) {
     	
     	System.out.println("statInc create procedure");
     	
+    	long actId = (long) session.getAttribute("actId");
+    	
     	if ( result.hasErrors() ) {
     		
-            return "viewAction.jsp";
+            return "redirect:/view-action/" + actId;
             
         } else {
         	
-        	System.out.println("statInc info: " + statInc.getId());
-        	
         	System.out.println("associating new statInc with action");
         	
-	    	statInc.setAction(actServ.findAction(actId));
+        	Action act = actServ.findAction(actId);
+        	
+        	statInc.setAction(act);
+        	
+        	System.out.println("statInc id is " + statInc.getId());
         	
         	System.out.println("creating statInc");
         	
         	statIncServ.createStatInc(statInc);
             
             System.out.println("done");
+            
+            session.setAttribute("actId", null);
+            
+            System.out.println("statInc id is " + statInc.getId());
             
 	    	//Long actId = action.getId();
         	

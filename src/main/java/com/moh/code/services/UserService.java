@@ -374,7 +374,21 @@ public class UserService {
 				  willpower.setDrive((int) (willpower.getDrive()+result.get(key)));
 				  
 			    break;
-			  
+			    
+			  //Extra stats - for sleep skill
+			    
+			  case "dailyLimit":
+				  
+				  //?
+				  
+			    break;
+			  /*  //Extra stats - for overclock skill
+			  case "dailyLimit":
+				  
+				  //?
+				  
+			    break;
+			  */
 			}
 			
 		}

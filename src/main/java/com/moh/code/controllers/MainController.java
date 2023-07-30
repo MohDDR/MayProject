@@ -136,8 +136,6 @@ public class MainController {
     		
     		User user = userServ.collectUserStats(id);
     		
-    		System.out.println("logged in... heres account info " + user.getCharisma().getAverage_cha());
-    		
     		user.setCompletedActs(actServ.findCompletedActions(user));
 
     		Dictionary<Action, Long> compActs = userServ.findCompletedActionsCount(user);
@@ -151,8 +149,6 @@ public class MainController {
     		List <Action> actions = actServ.allActions();
 	    	
 	    	model.addAttribute("actions", actions);
-	    	
-	    	System.out.println("... heres actions " + actions);
 	        
 	        return "dashboard.jsp";
     	}
@@ -191,6 +187,8 @@ public class MainController {
     @GetMapping("/logout")
     
     public String logout(HttpSession session) {
+    	
+    	session.setAttribute("actId", null);
     	
     	session.setAttribute("user_id", null);
     	
