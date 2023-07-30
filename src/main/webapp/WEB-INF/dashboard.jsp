@@ -59,6 +59,7 @@
 				<c:forEach var="action" items="${ actions }">
 					<div>
 						<p><c:out value="${ action.name }"/></p>
+						<p><c:out value="${ action.duration }"/></p>
 						<p><c:out value="${ action.maxLimit }"/></p>
 						<a href="/view-action/${ action.id }">View Action</a>
 						<a href="/dashboard/${ action.id }">Select Action</a>

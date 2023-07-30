@@ -34,11 +34,41 @@
 			</div>
 			<div class=" col-sm-8 border border-primary ">
 				<form:form action="/action/create-statInc" method="post" modelAttribute="statInc">
-				    <div class="">
-				        <form:label path="name">Value Name: </form:label>
-				        <form:input path="name"/>
-				        <form:errors class="error" path="name"/>
-				    </div>
+				    <form:label path="name">Choose a Stat:</form:label>
+						<form:select path="name" name="name" value="required">
+							<form:option value="">None</form:option>
+							<optgroup label="Charisma">
+							    <form:option value="average_cha">Charisma</form:option>
+							    <form:option value="speech">Speech</form:option>
+							    <form:option value="conduct">Conduct</form:option>
+							    <form:option value="reputation">Reputation</form:option>
+							    <form:option value="ability">Ability</form:option>
+							    <form:option value="network">Network</form:option>
+						    </optgroup>
+						    <optgroup label="Constitution">
+							    <form:option value="average_con">Constitution</form:option>
+							    <form:option value="health">Health</form:option>
+							    <form:option value="diet">Diet</form:option>
+							    <form:option value="training">Training</form:option>
+							    <form:option value="intensity">Intensity</form:option>
+							    <form:option value="consistency">Consistency</form:option>
+							    <form:option value="length">Length</form:option>
+						    </optgroup>
+						    <optgroup label="Willpower">
+							    <form:option value="average_will">Willpower</form:option>
+							    <form:option value="mood">Mood</form:option>
+							    <form:option value="discipline">Discipline</form:option>
+							    <form:option value="faith">Faith</form:option>
+							    <form:option value="mentality">Mentality</form:option>
+							    <form:option value="focus">Focus</form:option>
+							    <form:option value="drive">Drive</form:option>
+						    </optgroup>
+						    <optgroup label="extras">
+						    	<form:option value="dailyLimit">Daily Limit</form:option>
+						    </optgroup>
+
+						</form:select>
+						<form:errors class="error" path="name"/>
 				    <div>
 				    	<form:label path="incAmt">Value Increase: </form:label>
 				        <form:input type="number" path="incAmt"/>

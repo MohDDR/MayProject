@@ -35,6 +35,7 @@
 			<div class=" col-sm-8 border border-primary ">
 				<h6> <c:out value="${ act.name }"/> </h6>
 				<p> <c:out value="${ act.description }"/> </p>
+				<p> <c:out value="${ act.duration }"/> </p>
 				<p> <c:out value="${ act.maxLimit }"/> </p>
 				<a href="/edit-action/${act.id}">Edit</a>
 				<div>

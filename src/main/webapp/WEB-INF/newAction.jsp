@@ -39,6 +39,10 @@
 				        <form:input path="name"/>
 				        <form:errors class="error" path="name"/>
 				    </div>
+				    <div><form:label path="duration">Duration: </form:label>
+				        <form:textarea path="duration"/>
+				        <form:errors class="error" path="duration"/>
+				    </div>
 				    <div><form:label path="description">Description: </form:label>
 				        <form:textarea path="description"/>
 				        <form:errors class="error" path="description"/>
